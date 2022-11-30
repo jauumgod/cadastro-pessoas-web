@@ -40,15 +40,12 @@ class Inventario(db.Model):
 @app.route("/register", methods=['GET','POST'])
 def register():
     if request.method=='POST':
-        user = User.query.filter_by(user=login).first()
-        if user:
-            flash('Usuario já cadastrado')
         user = User()
         user.nome_completo = request.form['nome_completo']
         user.login = request.form["usuario"]
         user.password = generate_password_hash(request.form["password"])
         db.session.add(user)
-        db.session.commit()
+        db.session.commit()            
         flash('Usuario criado com sucesso!')
         return redirect("/login")
 

@@ -42,13 +42,17 @@
         <button type="submit" class="btn btn-primary ">Registrar</button>
     </form>
 
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-        <div class="notification is-danger">
-            {{ messages[0] }}. Go to <a href="{{ url_for('login') }}">login page</a>.
-        </div>
-        {% endif %}
-    {% endwith %}
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert-message block-message error">
+                    <ul class=flashes>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
 
     <footer class="endpage">
         <p style="text-align: center;">Crie seu usuario para acessar a pagina de Detalhes</p>
