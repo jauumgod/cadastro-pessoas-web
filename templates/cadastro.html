@@ -21,7 +21,7 @@
                 <a class="nav-link active" aria-current="page" href="{{url_for('login')}}">Inicio</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{url_for('pessoas_cadastradas')}}">Visualizar Usuários</a>
+                <a class="nav-link" href="{{url_for('Inventory')}}">Visualizar Itens</a>
                 </li>
             </ul>
 
@@ -29,26 +29,34 @@
     </div>
 </nav>
     <form action="{{url_for('cadastro')}}" class="form-cadastro" method="POST" >
-        <h2 style="text-align: center;">CADASTRO PESSOAS</h2>
+        <h2 style="text-align: center;">ADICIONAR ITEM</h2>
         <hr>
         <div class="mb-3" style="width: 30%;">
-            <label>Nome</label>
-            <input type="text"  class="form-control" name="username">
+            <label>Item</label>
+            <input type="text"  class="form-control" name="item">
         </div>
         <div class="mb-3" style="width: 30%;">
-            <label>Idade</label>
-            <input type="text"  class="form-control" name="idade">
+            <label>Modelo</label>
+            <input type="text"  class="form-control" name="modelo">
         </div>
         <div class="mb-3" style="width: 30%;">
-            <label>Nome da mãe</label>
-            <input type="text"  class="form-control" name="nome_mae">
+            <label>Ano</label>
+            <input type="text"  class="form-control" name="ano">
         </div>
         <div class="mb-3" style="width: 30%;">
-            <label>CPF</label>
-            <input type="text"  class="form-control" name="cpf">
+            <label>Quantidade</label>
+            <input type="number"  class="form-control" name="quant">
+        </div>
+        <div class="mb-3" style="width: 30%;">
+            <label>Valor</label>
+            <input type="text"  class="form-control" name="valor">
+        </div>
+        <div class="mb-3" style="width: 30%;">
+            <label>Data</label>
+            <input type="datetime-local"  class="form-control" name="data">
         </div>
 
-        <input type="submit" class="btn btn-primary" value="Cadastrar">
+        <input type="submit" class="btn btn-primary" value="Adcionar">
     </form>
 
     

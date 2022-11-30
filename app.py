@@ -24,13 +24,15 @@ class User(db.Model):
 
 
 #CLASS PESSOA
-class Pessoa(db.Model):
-    __tablename__ = 'pessoas'
+class Inventario(db.Model):
+    __tablename__ = 'inventario'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(84), nullable=False, unique=True, index=True)
-    idade = db.Column(db.String(255), nullable=False)
-    nome_da_mae = db.Column(db.String(255), nullable=False)
-    cpf = db.Column(db.String(255), nullable=False)
+    item = db.Column(db.String(84), nullable=False)
+    modelo = db.Column(db.String(255), nullable=False)
+    ano = db.Column(db.String(255), nullable=False)
+    quantidade = db.Column(db.String(255), nullable=False)
+    valor = db.Column(db.String(255), nullable=False)
+    data = db.Column(db.String(255), nullable=False)
 
     def __str__(self):
         return self.name
@@ -38,6 +40,9 @@ class Pessoa(db.Model):
 @app.route("/register", methods=['GET','POST'])
 def register():
     if request.method=='POST':
+        user = User.query.filter_by(user=login).first()
+        if user:
+            flash('Usuario já cadastrado')
         user = User()
         user.nome_completo = request.form['nome_completo']
         user.login = request.form["usuario"]
@@ -60,36 +65,38 @@ def login():
         if not check_password_hash(user.password, password):
             return redirect(url_for("login"))
 
-        return redirect(url_for("pessoas_cadastradas"))
+        return redirect(url_for("Inventory"))
     return render_template("login.html")
 
 @app.route("/cadastro", methods=["GET","POST"])
 def cadastro():
     if request.method=="POST":
-        pessoa = Pessoa()
-        pessoa.name = request.form["username"]
-        pessoa.idade = request.form["idade"]
-        pessoa.nome_da_mae = request.form["nome_mae"]
-        pessoa.cpf = request.form["cpf"]
-        db.session.add(pessoa)
+        itens = Inventario()
+        itens.item = request.form["item"]
+        itens.modelo = request.form["modelo"]
+        itens.ano = request.form['ano']
+        itens.quantidade = request.form["quant"]
+        itens.valor = request.form["valor"]
+        itens.data = request.form["data"]
+        db.session.add(itens)
         db.session.commit()
         if db.session.commit==True:
-            flash("Usuario Criado Com sucesso!")
+            flash("Item cadastrado com sucesso!")
             return redirect(url_for("cadastro"))
     return render_template("cadastro.html")
 
 @login_required
-@app.route("/pessoas")
-def pessoas_cadastradas():
-    pessoas = Pessoa.query.all()
-    return render_template("list_cadastros.html", pessoas=pessoas)
+@app.route("/inventory")
+def Inventory():
+    itens = Inventario.query.all()
+    return render_template("list_cadastros.html", itens=itens)
 
-@app.route("/pessoas/<int:id>")
+@app.route("/inventory/<int:id>")
 def delete(id):
-    pessoas = Pessoa.query.filter_by(id=id).first()
-    db.session.delete(pessoas)
+    itens = Inventario.query.filter_by(id=id).first()
+    db.session.delete(itens)
     db.session.commit()
-    return redirect("/pessoas")
+    return redirect("/inventory")
 
 @login_required
 @app.route("/settings", methods=["GET", "POST"])
