@@ -1,6 +1,6 @@
 from flask import Flask, url_for, render_template, redirect, request, flash
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import login_manager, login_required
+from flask_login import login_manager, login_required, LoginManager, login_user, logout_user
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
@@ -8,7 +8,9 @@ app = Flask(__name__)
 app.config['SECRET_KEY']="uzumymw"
 app.config['SQLALCHEMY_DATABASE_URI']="sqlite:///app.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
+
 db = SQLAlchemy(app)
+login_manager = LoginManager(app)
 
 #CLASS USERS
 
@@ -37,6 +39,28 @@ class Inventario(db.Model):
     def __str__(self):
         return self.name
 
+class user(object):
+    def __init__(self, id, username, active=True):
+        self.username = username
+        self.id = id
+
+        #self.active = active
+    def is_authenticated(self):
+        return True  
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return 5
+
+@login_manager.user_loader
+def current_user(user_id):
+    return User.query.get(user_id)
+
 @app.route("/register", methods=['GET','POST'])
 def register():
     if request.method=='POST':
@@ -56,13 +80,19 @@ def login():
     if request.method=='POST':
         username = request.form['usuario']
         password = request.form['senha']
+        
         user = User.query.filter_by(login=username).first()
         if not user:
-            return redirect(url_for("login"))
-        if not check_password_hash(user.password, password):
+            flash('Credenciais Inválidas')
             return redirect(url_for("login"))
 
+        if not check_password_hash(user.password, password):
+            flash('Credenciais Inválidas')
+            return redirect(url_for("login"))
+
+        #login_user(user)   
         return redirect(url_for("Inventory"))
+
     return render_template("login.html")
 
 @app.route("/cadastro", methods=["GET","POST"])
@@ -82,25 +112,33 @@ def cadastro():
             return redirect(url_for("cadastro"))
     return render_template("cadastro.html")
 
-@login_required
+
 @app.route("/inventory")
+#@login_required
 def Inventory():
     itens = Inventario.query.all()
     return render_template("list_cadastros.html", itens=itens)
 
+
 @app.route("/inventory/<int:id>")
+#@login_required
 def delete(id):
     itens = Inventario.query.filter_by(id=id).first()
     db.session.delete(itens)
     db.session.commit()
     return redirect("/inventory")
 
-@login_required
+
 @app.route("/settings", methods=["GET", "POST"])
 def settings():
     usuarios = User.query.all()
     return render_template("settings.html",usuarios=usuarios)
 
+@app.route("/logout")
+#@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("login"))
 
 if __name__=="__main__":
     app.run(debug=True)

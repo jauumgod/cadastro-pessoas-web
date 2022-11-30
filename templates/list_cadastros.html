@@ -18,7 +18,7 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{url_for('login')}}">Login</a>
+                    <a class="nav-link active" aria-current="page" href="{{url_for('logout')}}">Sair</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{url_for('cadastro')}}">Inserir Itens</a>
@@ -40,9 +40,11 @@
 
         <ul class="list-group">
             {% for item in itens %}
-                <li class="list-group-item"><input type="checkbox" name="pessoa_name"> Nome : {{item.item}}</li>
-                <li class="list-group-item"><input type="checkbox" name="pessoa_name"> modelo : {{item.modelo}}</li>
-                <hr>
+                <li class="list-group-item list-group-item-primary" aria-current="true"><input type="checkbox" name="pessoa_name"> Tipo : {{item.item}}</li>
+                <li class="list-group-item "> modelo : {{item.modelo}}</li>
+                <li class="list-group-item"> Ano : {{item.ano}}</li>
+                <li class="list-group-item"> Valor : {{item.valor}}</li>
+                
             {% endfor %}
         </ul>
         
