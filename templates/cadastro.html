@@ -45,11 +45,11 @@
         </div>
         <div class="mb-3" style="width: 30%;">
             <label>Quantidade</label>
-            <input type="number"  class="form-control" name="quant">
+            <input type="number"  class="form-control" name="quant" required>
         </div>
         <div class="mb-3" style="width: 30%;">
             <label>Valor</label>
-            <input type="text"  class="form-control" name="valor">
+            <input type="text"  class="form-control" name="valor"required>
         </div>
         <div class="mb-3" style="width: 30%;">
             <label>Data</label>
@@ -58,22 +58,18 @@
 
         <input type="submit" class="btn btn-primary" value="Adcionar">
     </form>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="alert-message block-message error" style="width: 20%; text-align:center;">
+            <ul class=flashes>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+{% endwith %}
 
-    
-    <footer class="endpage">
-        <p style="text-align: center; color: black;">
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    <div class="alert-message sucess"> 
-                        {% for message in messages %}
-                            {{ message }}
-                        {% endfor %}
-                        
-                    </div>
-                {% endif %}
-            {% endwith %}
-        </p>
-    </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
 </body>
 </html>

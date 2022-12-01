@@ -26,6 +26,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{url_for('settings')}}">Configurações</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('relatorio')}}">Gerar Relatorio</a>
+                </li>
             </ul>
             <form class="d-flex" role="search">
               <input class="form-control me-2" type="search" placeholder="Digite o nome" aria-label="Search">
@@ -37,14 +40,25 @@
     
     <div>
         <h2>INVENTARIO</h2><br>
-
+        
+        Organizar por: <select name="select">
+            <option value="item" type="submit"  >Item</option>
+            <option value="modelo" type="submit">Modelo</option>
+            <option value="ano" type="submit"   >Ano</option>
+            <option value="valor" type="submit" >Valor</option>
+            <option value="qtd" type="submit"   >Qtd</option>
+        </select><br>
         <ul class="list-group">
             {% for item in itens %}
-                <li class="list-group-item list-group-item-primary" aria-current="true"><input type="checkbox" name="pessoa_name"> Tipo : {{item.item}}</li>
+                <li class="list-group-item list-group-item-primary" aria-current="true"> Tipo : {{item.item}}</li>
                 <li class="list-group-item "> modelo : {{item.modelo}}</li>
                 <li class="list-group-item"> Ano : {{item.ano}}</li>
                 <li class="list-group-item"> Valor : {{item.valor}}</li>
-                <li><a href="{{url_for('delete_inventario', id=item.id)}}">Deletar</a></li>
+                <li><a href="{{url_for('delete_inventario', id=item.id)}}" class="end_list"><i class="icon">Delete
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                    </svg>
+                </i></a></li>
                 
             {% endfor %}
         </ul>

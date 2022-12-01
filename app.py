@@ -2,7 +2,8 @@ from flask import Flask, url_for, render_template, redirect, request, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import login_manager, login_required, LoginManager, login_user, logout_user
 from werkzeug.security import check_password_hash, generate_password_hash
-
+import csv
+import xlsxwriter
 
 app = Flask(__name__)
 app.config['SECRET_KEY']="uzumymw"
@@ -107,9 +108,8 @@ def cadastro():
         itens.data = request.form["data"]
         db.session.add(itens)
         db.session.commit()
-        if db.session.commit==True:
-            flash("Item cadastrado com sucesso!")
-            return redirect(url_for("cadastro"))
+        return redirect(url_for("cadastro"))
+        flash("Item cadastrado com sucesso!")
     return render_template("cadastro.html")
 
 
@@ -136,7 +136,6 @@ def delete_users(id):
     db.session.commit()
     return redirect("/settings")
 
-
 @app.route("/settings", methods=["GET", "POST"])
 def settings():
     usuarios = User.query.all()
@@ -149,5 +148,36 @@ def logout():
     logout_user()
     return redirect(url_for("login"))
 
+@app.route("/alterar_senha", methods=['GET', 'POST'])
+def alterar_senha(id):
+    if request.method=='POST':
+        senha_antiga = request.form['senha_antiga']
+        nova_senha = request.form['nova_senha']
+
+        usuario = User.query.filter_by(id=id).first()
+        db.session.add(usuario)
+        db.session.commit()
+        redirect("/settings")
+
+@app.route("/inventory/gerar_csv", methods=["GET", "POST"])
+def relatorio():
+    from_db = []
+    relatorio = Inventario.query.all()
+    dados = 0
+    for lista in relatorio:
+        from_db.append(lista)
+    print(from_db)
+
+"""
+    for item in content:
+
+        worksheet.write(row,column,item)
+
+        row+=1
+    
+    workbook.close()
+
+    return redirect("/inventory")
+"""
 if __name__=="__main__":
     app.run(debug=True)

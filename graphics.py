@@ -33,7 +33,7 @@ app.layout = html.Div(
   
 def update_graph_scatter(n): 
     X.append(X[-1]+1) 
-    Y.append(Y[-1]+Y[-1] * random.uniform(-0.1,0.1)) 
+    Y.append(Y[-1]+Y[-1] * random.uniform(-1,1)) 
   
     data = plotly.graph_objs.Scatter( 
             x=list(X), 
