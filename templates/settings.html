@@ -23,6 +23,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{url_for('cadastro')}}">Inserir Itens</a>
                 </li>
+
             </ul>
           </div>
         </div>
@@ -30,13 +31,13 @@
     <div>
         <h3>Configurações</h3>
         <hr>
-        <ul class="list-group">
-          {% for User in usuarios %}
-              <li class="list-group-item"><input type="checkbox" name="pessoa_name"> Usuarios : {{User.login}}</li>
-              
+        {% for User in usuarios %}
+          <ul class="list-group">
+              <li class="list-group-item"><a href=""></a> Usuarios : {{User.login}}</li>
+              <li class="list-group-item"><a href="{{url_for('delete_users', id=User.id)}}">Delete</a></li>
               <hr>
-          {% endfor %}
-      </ul>
+          </ul>
+        {% endfor %}
     </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
 </body>

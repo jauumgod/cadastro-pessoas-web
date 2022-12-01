@@ -120,19 +120,28 @@ def Inventory():
     return render_template("list_cadastros.html", itens=itens)
 
 
-@app.route("/inventory/<int:id>")
+@app.route("/inventory/delete/<int:id>")
 #@login_required
-def delete(id):
+def delete_inventario(id):
     itens = Inventario.query.filter_by(id=id).first()
     db.session.delete(itens)
     db.session.commit()
     return redirect("/inventory")
+
+@app.route("/settings/delete/<int:id>")
+#@login_required
+def delete_users(id):
+    usuario = User.query.filter_by(id=id).first()
+    db.session.delete(usuario)
+    db.session.commit()
+    return redirect("/settings")
 
 
 @app.route("/settings", methods=["GET", "POST"])
 def settings():
     usuarios = User.query.all()
     return render_template("settings.html",usuarios=usuarios)
+
 
 @app.route("/logout")
 #@login_required

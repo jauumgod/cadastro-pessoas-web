@@ -44,6 +44,7 @@
                 <li class="list-group-item "> modelo : {{item.modelo}}</li>
                 <li class="list-group-item"> Ano : {{item.ano}}</li>
                 <li class="list-group-item"> Valor : {{item.valor}}</li>
+                <li><a href="{{url_for('delete_inventario', id=item.id)}}">Deletar</a></li>
                 
             {% endfor %}
         </ul>
