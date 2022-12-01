@@ -168,16 +168,6 @@ def relatorio():
         from_db.append(lista)
     print(from_db)
 
-"""
-    for item in content:
 
-        worksheet.write(row,column,item)
-
-        row+=1
-    
-    workbook.close()
-
-    return redirect("/inventory")
-"""
 if __name__=="__main__":
     app.run(debug=True)
